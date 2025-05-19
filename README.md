@@ -44,6 +44,38 @@ This is a personal project for the Random Acts of Santa (ROASanta) service, host
    ```
    The frontend will start on http://localhost:5173 and proxy API requests to the backend.
 
+## Running with Docker
+
+You can build and run the entire project in a Docker container:
+
+```pwsh
+# Build the Docker image
+docker build -t roasanta2025 .
+
+# Run the container
+# (Maps backend port 3001 to your host)
+docker run -p 3001:3001 roasanta2025
+```
+
+- The backend API will be available at http://localhost:3001
+- The frontend static files are built and can be served separately if needed (e.g., with nginx or a static file server).
+
+## MongoDB Integration
+
+This project uses MongoDB as its database, running as a service within Docker Compose. The backend connects to MongoDB using the `MONGO_URL` environment variable, and the API is only accessible within the Docker network for security.
+
+### Running with Docker Compose
+
+```pwsh
+docker compose up --build
+```
+
+- The backend API will be available to other containers at `http://localhost:3001`
+- The frontend will be available at [http://localhost](http://localhost).
+- MongoDB will be available to containers at `mongodb://mongo:27017/roasanta`.
+
+To access MongoDB from your host for development, you can use the mapped port `27017`.
+
 ## Features
 - Modern React + TypeScript frontend
 - Node.js + Express + TypeScript backend
