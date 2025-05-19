@@ -2,36 +2,27 @@ version: '3.8'
 services:
   mongo:
     image: mongo:7
-    container_name: roasanta-mongo
     restart: always
     environment:
       MONGO_INITDB_DATABASE: roasanta
-    ports:
-      - "27017:27017"
     volumes:
       - mongo-data:/data/db
   backend:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: roasanta-backend
     environment:
       - MONGO_URL=mongodb://mongo:27017/roasanta
     depends_on:
       - mongo
-    ports:
-      - "3001:3001"
     networks:
       - roasanta-net
   frontend:
     image: nginx:alpine
-    container_name: roasanta-frontend
     volumes:
       - ./frontend/dist:/usr/share/nginx/html:ro
     depends_on:
       - backend
-    ports:
-      - "80:80"
     networks:
       - roasanta-net
 networks:
